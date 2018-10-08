@@ -1,5 +1,7 @@
-class GifsController < ApplicationController
-  before_action :set_gif, only: [:show, :update, :destroy]
+# frozen_string_literal: true
+
+class GifsController < OpenReadController
+  before_action :set_gif, only: %i[show update destroy]
 
   # GET /gifs
   def index
@@ -10,15 +12,15 @@ class GifsController < ApplicationController
 
   # GET /gifs/1
   def show
-    render json: @gif
+    render json: Gif.find(params[:id])
   end
 
   # POST /gifs
   def create
-    @gif = Gif.new(gif_params)
+    @gif = current_user.gifs.build(gif_params)
 
     if @gif.save
-      render json: @gif, status: :created, location: @gif
+      render json: @gif, status: :created
     else
       render json: @gif.errors, status: :unprocessable_entity
     end
@@ -36,16 +38,17 @@ class GifsController < ApplicationController
   # DELETE /gifs/1
   def destroy
     @gif.destroy
+
+    head :no_content
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_gif
-      @gif = Gif.find(params[:id])
-    end
+  def set_gif
+    @gif = current_user.gifs.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def gif_params
-      params.require(:gif).permit(:name, :gif_url)
-    end
+  def gif_params
+    params.require(:gif).permit(:name, :gif_url)
+  end
+
+  private :set_gif, :gif_params
 end

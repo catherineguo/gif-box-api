@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-class GifsController < OpenReadController
+class GifsController < ProtectedController
   before_action :set_gif, only: %i[show update destroy]
 
   # GET /gifs
   def index
-    @gifs = Gif.all
+    @gifs = current_user.gifs.all
 
     render json: @gifs
   end
 
   # GET /gifs/1
   def show
-    render json: Gif.find(params[:id])
+    render json: @gif
   end
 
   # POST /gifs

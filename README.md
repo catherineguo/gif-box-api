@@ -31,7 +31,7 @@ To view the wireframes and user stories for this project, please refer to the fr
 | PATCH  | `/change-password/`    | `users#changepw`  |
 | DELETE | `/sign-out/`           | `users#signout`   |
 
-### Surveys
+### GIFs
 
 | Verb   | URI Pattern            | Controller#Action |
 |--------|------------------------|-------------------|

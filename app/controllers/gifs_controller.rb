@@ -5,7 +5,7 @@ class GifsController < ProtectedController
 
   # GET /gifs
   def index
-    @gifs = current_user.gifs.all
+    @gifs = current_user.gifs.all.order(updated_at: :desc)
 
     render json: @gifs
   end
